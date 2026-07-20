@@ -106,64 +106,64 @@ export default function Home() {
                         type: "Mb"
                     }
                 })
-            } />
+            }/>
             <MenuCard title="신관 종합점검" onClick={() =>
                 navigate("/worker", {
                     state: {
                         type: "Nb"
                     }
                 })
-            } />
+            }/>
             <MenuCard title="HOS 종합점검" onClick={() =>
                 navigate("/worker", {
                     state: {
                         type: "Hos"
                     }
                 })
-            } />
+            }/>
             <MenuCard title="식품관 점검" onClick={() =>
                 navigate("/worker", {
                     state: {
                         type: "Food"
                     }
                 })
-            } />
+            }/>
             <MenuCard title="스위트 파크 점검" onClick={() =>
                 navigate("/worker", {
                     state: {
                         type: "Sweet"
                     }
                 })
-            } />
+            }/>
             <MenuCard title="외곽 및 점외 시설물 점검" onClick={() =>
                 navigate("/worker", {
                     state: {
                         type: "Out"
                     }
                 })
-            } />
+            }/>
             <MenuCard title="기술 점검" onClick={() =>
                 navigate("/worker", {
                     state: {
                         type: "Tech"
                     }
                 })
-            } />
+            }/>
             <MenuCard title="보조 배터리 점검" onClick={() =>
                 navigate("/worker", {
                     state: {
                         type: "Battery"
                     }
                 })
-            } />
+            }/>
             <MenuCard title="누수 점검" onClick={() =>
                 navigate("/worker", {
                     state: {
                         type: "Water"
                     }
                 })
-            } />
-            <MenuCard title="메모G" onClick={() => navigate("/memo", {  })} />
+            }/>
+            <MenuCard title="메모G" onClick={() => navigate("/memo", {})}/>
 
             <Typography
                 sx={{

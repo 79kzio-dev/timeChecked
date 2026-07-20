@@ -13,10 +13,10 @@ import {
     useNavigate
 } from "react-router-dom";
 
-import { useState } from "react";
+import {useState} from "react";
 
-import { typeName } from "../data/TypeName";
-import type { CheckItem } from "../data/CheckItem";
+import {typeName} from "../data/TypeName";
+import type {CheckItem} from "../data/CheckItem";
 
 
 export default function Edit() {
@@ -27,22 +27,16 @@ export default function Edit() {
     const navigate = useNavigate();
 
 
-
     const type =
         location.state?.type as keyof typeof typeName;
-
 
 
     const worker =
         location.state?.worker ?? "";
 
 
-
     const items =
         location.state?.items as CheckItem[] ?? [];
-
-
-
 
 
     const createReport = () => {
@@ -51,8 +45,7 @@ export default function Edit() {
         let result = "";
 
 
-
-        if(type === "Tech") {
+        if (type === "Tech") {
 
             result =
                 `${typeName[type]} 기술팀 ${worker || "미입력"} 님\n\n`;
@@ -65,15 +58,13 @@ export default function Edit() {
         }
 
 
-
-
-        items.forEach(item=>{
+        items.forEach(item => {
 
 
             let time = "미점검";
 
 
-            if(item.startTime){
+            if (item.startTime) {
 
                 time =
                     item.endTime
@@ -85,12 +76,10 @@ export default function Edit() {
             }
 
 
-
             result +=
-                `${item.name.padEnd(15," ")} ${time}\n`;
+                `${item.name.padEnd(15, " ")} ${time}\n`;
 
         });
-
 
 
         return result;
@@ -98,30 +87,22 @@ export default function Edit() {
     };
 
 
-
-
-
-
-    const [reportText,setReportText] =
+    const [reportText, setReportText] =
         useState(createReport());
 
 
+    const saveResult = () => {
 
 
+        navigate("/result", {
 
-
-    const saveResult = ()=>{
-
-
-        navigate("/result",{
-
-            state:{
+            state: {
 
                 type,
 
                 worker,
 
-                report:reportText
+                report: reportText
 
             }
 
@@ -131,16 +112,7 @@ export default function Edit() {
     };
 
 
-
-
-
-
     const title = typeName[type];
-
-
-
-
-
 
 
     return (
@@ -151,14 +123,13 @@ export default function Edit() {
 
             sx={{
 
-                mt:4,
+                mt: 4,
 
-                pb:5
+                pb: 5
 
             }}
 
         >
-
 
 
             {/* 점검 정보 */}
@@ -169,9 +140,9 @@ export default function Edit() {
 
                 sx={{
 
-                    borderRadius:4,
+                    borderRadius: 4,
 
-                    mb:3
+                    mb: 3
 
                 }}
 
@@ -183,11 +154,11 @@ export default function Edit() {
 
                         sx={{
 
-                            display:"flex",
+                            display: "flex",
 
-                            flexDirection:"column",
+                            flexDirection: "column",
 
-                            gap:1
+                            gap: 1
 
                         }}
 
@@ -216,7 +187,7 @@ export default function Edit() {
 
                 sx={{
 
-                    borderRadius:4
+                    borderRadius: 4
 
                 }}
 
@@ -225,16 +196,15 @@ export default function Edit() {
                 <CardContent>
 
 
-
                     <Typography
 
                         sx={{
 
-                            fontWeight:700,
+                            fontWeight: 700,
 
-                            fontSize:"1.1rem",
+                            fontSize: "1.1rem",
 
-                            mb:2
+                            mb: 2
 
                         }}
 
@@ -243,9 +213,6 @@ export default function Edit() {
                         ✏️ 점검 결과 수정
 
                     </Typography>
-
-
-
 
 
                     <TextField
@@ -258,7 +225,7 @@ export default function Edit() {
 
                         value={reportText}
 
-                        onChange={(e)=>
+                        onChange={(e) =>
 
                             setReportText(
                                 e.target.value
@@ -269,20 +236,20 @@ export default function Edit() {
 
                         sx={{
 
-                            "& .MuiOutlinedInput-root":{
+                            "& .MuiOutlinedInput-root": {
 
-                                borderRadius:3,
+                                borderRadius: 3,
 
-                                backgroundColor:"#fafafa"
+                                backgroundColor: "#fafafa"
 
                             },
 
 
-                            "& textarea":{
+                            "& textarea": {
 
-                                fontSize:"15px",
+                                fontSize: "15px",
 
-                                lineHeight:1.8
+                                lineHeight: 1.8
 
                             }
 
@@ -291,16 +258,10 @@ export default function Edit() {
                     />
 
 
-
                 </CardContent>
 
 
             </Card>
-
-
-
-
-
 
 
             <Button
@@ -313,15 +274,15 @@ export default function Edit() {
 
                 sx={{
 
-                    mt:3,
+                    mt: 3,
 
-                    height:52,
+                    height: 52,
 
-                    borderRadius:3,
+                    borderRadius: 3,
 
-                    fontSize:"1rem",
+                    fontSize: "1rem",
 
-                    fontWeight:700
+                    fontWeight: 700
 
                 }}
 
@@ -330,8 +291,6 @@ export default function Edit() {
                 확인
 
             </Button>
-
-
 
 
         </Container>
