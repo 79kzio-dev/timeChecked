@@ -17,13 +17,13 @@ export default function Home() {
         year: "numeric",
         month: "2-digit",
         day: "2-digit",
-        weekday: "short",
+        weekday: "short"
       });
 
       const time = now.toLocaleTimeString("ko-KR", {
         hour: "2-digit",
         minute: "2-digit",
-        hour12: false,
+        hour12: false
       });
 
       setCurrentTime(`${date} ${time}`);
@@ -42,7 +42,7 @@ export default function Home() {
     <Container
       maxWidth="sm"
       sx={{
-        py: 3,
+        py: 3
       }}
     >
       {/* Header */}
@@ -53,7 +53,7 @@ export default function Home() {
           mb: 3,
           borderRadius: 4,
           bgcolor: "primary.main",
-          color: "primary.contrastText",
+          color: "primary.contrastText"
         }}
       >
         <Box
@@ -61,7 +61,7 @@ export default function Home() {
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            gap: 1,
+            gap: 1
           }}
         >
           <VerifiedUserIcon fontSize="medium" />
@@ -69,10 +69,10 @@ export default function Home() {
           <Typography
             variant="h6"
             sx={{
-              fontWeight: 700,
+              fontWeight: 700
             }}
           >
-            The Guardians 강남점 시설물 점검 관리
+            The Guardians 강남점<br /> 시설물 점검 관리
           </Typography>
         </Box>
 
@@ -81,7 +81,7 @@ export default function Home() {
             mt: 1,
             textAlign: "end",
             opacity: 0.9,
-            fontSize: 15,
+            fontSize: 15
           }}
         >
           {currentTime}
@@ -93,8 +93,8 @@ export default function Home() {
         onClick={() =>
           navigate("/worker", {
             state: {
-              type: "Mb",
-            },
+              type: "Mb"
+            }
           })
         }
       />
@@ -103,8 +103,8 @@ export default function Home() {
         onClick={() =>
           navigate("/worker", {
             state: {
-              type: "Nb",
-            },
+              type: "Nb"
+            }
           })
         }
       />
@@ -113,8 +113,8 @@ export default function Home() {
         onClick={() =>
           navigate("/worker", {
             state: {
-              type: "Hos",
-            },
+              type: "Hos"
+            }
           })
         }
       />
@@ -123,8 +123,8 @@ export default function Home() {
         onClick={() =>
           navigate("/worker", {
             state: {
-              type: "Food",
-            },
+              type: "Food"
+            }
           })
         }
       />
@@ -133,8 +133,8 @@ export default function Home() {
         onClick={() =>
           navigate("/worker", {
             state: {
-              type: "Sweet",
-            },
+              type: "Sweet"
+            }
           })
         }
       />
@@ -143,8 +143,8 @@ export default function Home() {
         onClick={() =>
           navigate("/worker", {
             state: {
-              type: "Out",
-            },
+              type: "Out"
+            }
           })
         }
       />
@@ -153,8 +153,8 @@ export default function Home() {
         onClick={() =>
           navigate("/worker", {
             state: {
-              type: "Tech",
-            },
+              type: "Tech"
+            }
           })
         }
       />
@@ -163,8 +163,8 @@ export default function Home() {
         onClick={() =>
           navigate("/worker", {
             state: {
-              type: "Battery",
-            },
+              type: "Battery"
+            }
           })
         }
       />
@@ -173,8 +173,8 @@ export default function Home() {
         onClick={() =>
           navigate("/worker", {
             state: {
-              type: "Water",
-            },
+              type: "Water"
+            }
           })
         }
       />
@@ -185,7 +185,7 @@ export default function Home() {
           mt: 4,
           textAlign: "end",
           color: "text.secondary",
-          fontSize: 14,
+          fontSize: 14
         }}
       >
         Developed by Kzio
