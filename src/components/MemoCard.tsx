@@ -115,6 +115,7 @@ export default function MemoCard({item}: Props) {
                                 whiteSpace: "pre-line",
                                 lineHeight: 1.6,
                                 fontSize: 15,
+                                textAlign: "left",
                             }}
                         >
                             {displayText}
