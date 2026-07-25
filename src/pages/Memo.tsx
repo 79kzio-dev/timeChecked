@@ -1,8 +1,9 @@
 import { Box, Container, IconButton, Typography } from "@mui/material";
 import HomeIcon from "@mui/icons-material/Home";
+import { useNavigate } from "react-router-dom";
+
 import MemoCard from "../components/MemoCard";
 import { memoData } from "../data/MemoData";
-import { useNavigate } from "react-router-dom";
 
 export default function Memo() {
   const navigate = useNavigate();
@@ -11,14 +12,14 @@ export default function Memo() {
     <Container
       maxWidth="sm"
       sx={{
-        py: 3,
+        py: 3
       }}
     >
       <Box
         sx={{
           display: "flex",
           alignItems: "center",
-          mb: 3,
+          mb: 3
         }}
       >
         <IconButton color="inherit" onClick={() => navigate("/")}>
@@ -28,16 +29,18 @@ export default function Memo() {
         <Typography
           sx={{
             width: "100%",
+            textAlign: "center",
             fontSize: 28,
             fontWeight: 700,
-            textAlign: "center",
+            mr: 6
           }}
         >
-          메모G
+          Memo G
         </Typography>
       </Box>
-      {memoData.map((text, index) => (
-        <MemoCard key={index} text={text} />
+
+      {memoData.map((item, index) => (
+        <MemoCard key={index} item={item} />
       ))}
     </Container>
   );
