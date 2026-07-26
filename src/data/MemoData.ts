@@ -173,7 +173,7 @@ export const memoData: MemoItem[] = [
   },
 
   {
-    text: "{location}층 {store} {company} 연장사인 완료 및 안전점검 특이사항 없습니다.",
+    text: "{location}층 {store} {company} 화기작업 연장사인 완료 및 안전점검 특이사항 없습니다.",
     fields: [
       {
         key: "location",

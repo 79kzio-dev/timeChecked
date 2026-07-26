@@ -1,37 +1,18 @@
-import {
-  Card,
-  CardActionArea,
-  Typography,
-  Box
-} from "@mui/material";
+import { Box, Button, Card, CardContent, Typography } from "@mui/material";
+import type { CheckItem } from "../data/CheckItem";
 
-import type { CheckItem } from "../data/CheckItem.ts";
-
-interface Props {
+type Props = {
   item: CheckItem;
-  onClick: () => void;
-}
+  onStart: () => void;
+  onEnd: () => void;
+};
 
 export default function CheckCard({
                                     item,
-                                    onClick
+                                    onStart,
+                                    onEnd
                                   }: Props) {
-
-  let text = "미점검";
-  let color: string = "#757575";
-
-  if (item.startTime && !item.endTime) {
-    text = item.startTime;
-    color = "#1565C0";
-  }
-
-  if (item.startTime && item.endTime) {
-    text = `${item.startTime} ~ ${item.endTime}`;
-    color = "#2E7D32";
-  }
-
   return (
-
     <Card
       elevation={2}
       sx={{
@@ -39,55 +20,148 @@ export default function CheckCard({
         borderRadius: 3
       }}
     >
-
-      <CardActionArea
-        onClick={onClick}
-        disabled={item.endTime !== ""}
-        sx={{
-          p: 2
-        }}
-      >
-
-
+      <CardContent>
         <Box
           sx={{
             display: "flex",
-            justifyContent: "space-between",
             alignItems: "center",
+            justifyContent: "space-between",
             gap: 2
           }}
         >
-
-          {/*점검 위치 */}
+          {/* 점검 위치 */}
           <Typography
-            variant="h6"
             sx={{
-              fontWeight: 700,
               flex: 1,
-              textAlign: "left",
-              fontSize: {
-                xs: "1rem",
-                sm: "1.1rem"
-              },
+              fontWeight: 700,
+              fontSize: "1.05rem",
               overflow: "hidden",
               textOverflow: "ellipsis",
               whiteSpace: "nowrap"
-
             }}
           >
             {item.name}
           </Typography>
 
-          <Typography
+          {/* 오른쪽 영역(항상 같은 폭) */}
+          <Box
             sx={{
-              color,
-              fontWeight: 600
+              width: 180,
+              flexShrink: 0,
+              display: "flex",
+              justifyContent: "flex-end",
+              alignItems: "center",
+              gap: 1
             }}
           >
-            {text}
-          </Typography>
+            {/* 아무것도 안 누름 */}
+            {!item.startTime &&
+              !item.endTime && (
+                <>
+                  <Button
+                    variant="contained"
+                    size="small"
+                    sx={{
+                      width: 60,
+                      minWidth: 60
+                    }}
+                    onClick={onStart}
+                  >
+                    시작
+                  </Button>
+
+                  <Button
+                    variant="contained"
+                    size="small"
+                    sx={{
+                      width: 60,
+                      minWidth: 60
+                    }}
+                    onClick={onEnd}
+                  >
+                    종료
+                  </Button>
+                </>
+              )}
+
+            {/* 시작만 */}
+            {item.startTime &&
+              !item.endTime && (
+                <>
+                  <Typography
+                    sx={{
+                      width: 110,
+                      textAlign: "right",
+                      fontWeight: 700,
+                      color: "primary.main",
+                      whiteSpace: "nowrap"
+                    }}
+                  >
+                    {item.startTime} ~
+                  </Typography>
+
+                  <Button
+                    variant="contained"
+                    size="small"
+                    sx={{
+                      width: 60,
+                      minWidth: 60
+                    }}
+                    onClick={onEnd}
+                  >
+                    종료
+                  </Button>
+                </>
+              )}
+
+            {/* 종료만 */}
+            {!item.startTime &&
+              item.endTime && (
+                <>
+                  <Button
+                    variant="contained"
+                    size="small"
+                    sx={{
+                      width: 60,
+                      minWidth: 60
+                    }}
+                    onClick={onStart}
+                  >
+                    시작
+                  </Button>
+
+                  <Typography
+                    sx={{
+                      width: 110,
+                      textAlign: "left",
+                      fontWeight: 700,
+                      color: "primary.main",
+                      whiteSpace: "nowrap"
+                    }}
+                  >
+                    ~ {item.endTime}
+                  </Typography>
+                </>
+              )}
+            {/* 시작 + 종료 */}
+            {item.startTime &&
+              item.endTime && (
+                <Typography
+                  sx={{
+                    width: 180,
+                    textAlign: "right",
+                    fontWeight: 700,
+                    color: "success.main",
+                    whiteSpace: "nowrap"
+                  }}
+                >
+                  {item.startTime} ~{" "}
+                  {item.endTime}
+                </Typography>
+              )}
+          </Box>
         </Box>
-      </CardActionArea>
+      </CardContent>
     </Card>
   );
 }
