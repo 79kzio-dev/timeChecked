@@ -110,78 +110,85 @@ export default function Edit() {
       maxWidth="sm"
       sx={{
         mt: 4,
-        pb: 5,
+        pb: 5
       }}
     >
-      {/* 점검 정보 */}
-      <Card>
-        <CardContent>
-          <Box
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              position: "relative",
-            }}
-          >
-            <IconButton
-              onClick={() => setHomeOpen(true)}
-              sx={{
-                position: "absolute",
-                left: 0,
-              }}
-            >
-              <HomeIcon />
-            </IconButton>
+      {/* 상단 헤더 */}
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          position: "relative",
+          mb: 3,
+          px: 1
+        }}
+      >
+        <IconButton onClick={() => setHomeOpen(true)}>
+          <HomeIcon />
+        </IconButton>
 
-            <Typography
-              sx={{
-                width: "100%",
-                textAlign: "center",
-                fontWeight: 700,
-                fontSize: "1.1rem",
-              }}
-            >
-              {title}
-            </Typography>
-          </Box>
-        </CardContent>
-      </Card>
+        <Typography
+          sx={{
+            position: "absolute",
+            left: "50%",
+            transform: "translateX(-50%)",
+            fontSize: "1.3rem",
+            fontWeight: 700,
+            whiteSpace: "nowrap"
+          }}
+        >
+          {title}
+        </Typography>
+      </Box>
 
-      {/* 결과 수정 */}
+      {/* 점검 결과 */}
       <Card
         elevation={2}
         sx={{
           borderRadius: 4,
+          mb: 4,
+          overflow: "hidden"
         }}
       >
-        <CardContent>
+        {/* 카드 상단 영역 */}
+        <Box
+          sx={{
+            py: 2,
+            borderBottom: "2px solid",
+            borderColor: "divider",
+            mb: 2
+          }}
+        >
           <Typography
             sx={{
+              textAlign: "center",
               fontWeight: 700,
-              fontSize: "1.1rem",
-              mb: 2,
+              fontSize: "1.1rem"
             }}
           >
-            ✏️ 점검 결과 수정
+            점검 결과 수정
           </Typography>
+        </Box>
 
+        <CardContent sx={{ p: 3 }}>
           <TextField
             multiline
             minRows={15}
             fullWidth
             value={reportText}
             onChange={(e) => setReportText(e.target.value)}
+            variant="outlined"
             sx={{
               "& .MuiOutlinedInput-root": {
                 borderRadius: 3,
-                bgcolor: "background.paper",
+                bgcolor: "background.paper"
               },
 
-              "& .MuiInputBase-input": {
-                color: "text.primary",
+              "& textarea": {
                 fontSize: 15,
                 lineHeight: 1.8,
-              },
+                fontFamily: "inherit"
+              }
             }}
           />
         </CardContent>
@@ -192,11 +199,10 @@ export default function Edit() {
         variant="contained"
         onClick={saveResult}
         sx={{
-          mt: 3,
           height: 52,
           borderRadius: 3,
           fontSize: "1rem",
-          fontWeight: 700,
+          fontWeight: 700
         }}
       >
         확인
@@ -225,7 +231,7 @@ export default function Edit() {
           <DialogContentText>
             홈으로 이동하시겠습니까?
             <br />
-            현재 점검 내용은 초기화됩니다.
+            진행 중인 모든 점검 내용이 초기화됩니다.
           </DialogContentText>
         </DialogContent>
 
@@ -244,7 +250,7 @@ export default function Edit() {
         onClose={() => setSnackOpen(false)}
         anchorOrigin={{
           vertical: "bottom",
-          horizontal: "center",
+          horizontal: "center"
         }}
       >
         <Alert severity="success" variant="filled" sx={{ width: "100%" }}>
@@ -254,3 +260,4 @@ export default function Edit() {
     </Container>
   );
 }
+

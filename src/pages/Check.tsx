@@ -183,7 +183,7 @@ export default function Check() {
           <DialogContentText>
             홈으로 이동하시겠습니까?
             <br />
-            현재 점검 내용은 초기화됩니다.
+            진행 중인 모든 점검 내용이 초기화됩니다.
           </DialogContentText>
         </DialogContent>
 
