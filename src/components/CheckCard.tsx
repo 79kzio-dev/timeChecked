@@ -10,7 +10,7 @@ type Props = {
 export default function CheckCard({
                                       item,
                                       onStart,
-                                      onEnd
+                                      onEnd,
                                   }: Props) {
     return (
         <Card
@@ -20,7 +20,14 @@ export default function CheckCard({
                 borderRadius: 3,
             }}
         >
-            <CardContent>
+            <CardContent
+                sx={{
+                    py: 2,
+                    "&:last-child": {
+                        pb: 2,
+                    },
+                }}
+            >
                 <Box
                     sx={{
                         display: "flex",
@@ -43,119 +50,109 @@ export default function CheckCard({
                         {item.name}
                     </Typography>
 
-                    {/* 오른쪽 영역(항상 같은 폭) */}
+                    {/* 오른쪽 영역(Grid 고정) */}
                     <Box
                         sx={{
-                            width: 180,
-                            flexShrink: 0,
-                            display: "flex",
-                            justifyContent: "flex-end",
+                            display: "grid",
+                            gridTemplateColumns: "60px 16px 60px",
                             alignItems: "center",
-                            gap: 1,
+                            justifyContent: "end",
+                            columnGap: 1,
+                            flexShrink: 0,
                         }}
                     >
-                        {/* 아무것도 안 누름 */}
-                        {!item.startTime && !item.endTime && (
-                            <>
-                                <Button
-                                    variant="contained"
-                                    size="small"
-                                    sx={{
-                                        width: 60,
-                                        minWidth: 60,
-                                    }}
-                                    onClick={onStart}
-                                >
-                                    시작
-                                </Button>
-
-                                <p/>
-                                <p/>
-                                <Button
-                                    variant="contained"
-                                    size="small"
-                                    sx={{
-                                        width: 60,
-                                        minWidth: 60,
-                                    }}
-                                    onClick={onEnd}
-                                >
-                                    종료
-                                </Button>
-                            </>
-                        )}
-
-                        {/* 시작만 */}
-                        {item.startTime && !item.endTime && (
-                            <>
+                        {/* 시작 */}
+                        <Box
+                            sx={{
+                                width: 52,
+                                height: 30,
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "center",
+                            }}
+                        >
+                            {item.startTime ? (
                                 <Typography
                                     sx={{
-                                        width: 80,
-                                        textAlign: "right",
+                                        width: "100%",
+                                        textAlign: "center",
                                         fontWeight: 700,
                                         color: "primary.main",
                                         whiteSpace: "nowrap",
+                                        fontSize: 13,
+                                        fontVariantNumeric: "tabular-nums",
                                     }}
                                 >
-                                    {item.startTime} ~ <p/>
+                                    {item.startTime}
                                 </Typography>
-
+                            ) : (
                                 <Button
                                     variant="contained"
                                     size="small"
-                                    sx={{
-                                        width: 60,
-                                        minWidth: 60,
-                                    }}
-                                    onClick={onEnd}
-                                >
-                                    종료
-                                </Button>
-                            </>
-                        )}
-
-                        {/* 종료만 */}
-                        {!item.startTime && item.endTime && (
-                            <>
-                                <Button
-                                    variant="contained"
-                                    size="small"
-                                    sx={{
-                                        width: 60,
-                                        minWidth: 60,
-                                    }}
                                     onClick={onStart}
+                                    sx={{
+                                        width: "100%",
+                                        height: "100%",
+                                        minWidth: 0,
+                                        fontSize: 12,
+                                    }}
                                 >
                                     시작
                                 </Button>
+                            )}
+                        </Box>
 
+                        {/* ~ */}
+                        <Typography
+                            sx={{
+                                textAlign: "center",
+                                fontWeight: 700,
+                                fontSize: 15,
+                            }}
+                        >
+                            ~
+                        </Typography>
+
+                        {/* 종료 */}
+                        <Box
+                            sx={{
+                                width: 52,
+                                height: 30,
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "center",
+                            }}
+                        >
+                            {item.endTime ? (
                                 <Typography
                                     sx={{
-                                        width: 80,
-                                        // textAlign: "left",
+                                        width: "100%",
+                                        textAlign: "center",
                                         fontWeight: 700,
                                         color: "primary.main",
                                         whiteSpace: "nowrap",
+                                        fontSize: 13,
+                                        fontVariantNumeric: "tabular-nums",
                                     }}
                                 >
-                                    ~ {item.endTime}
+                                    {item.endTime}
                                 </Typography>
-                            </>
-                        )}
-                        {/* 시작 + 종료 */}
-                        {item.startTime && item.endTime && (
-                            <Typography
-                                sx={{
-                                    width: 180,
-                                    textAlign: "right",
-                                    fontWeight: 700,
-                                    color: "success.main",
-                                    whiteSpace: "nowrap",
-                                }}
-                            >
-                                {item.startTime} ~ {item.endTime}
-                            </Typography>
-                        )}
+                            ) : (
+                                <Button
+                                    variant="contained"
+                                    size="small"
+                                    onClick={onEnd}
+                                    sx={{
+                                        width: "100%",
+                                        height: "100%",
+                                        minWidth: 0,
+                                        fontSize: 12,
+                                    }}
+                                >
+                                    종료
+                                </Button>
+                            )}
+                        </Box>
                     </Box>
                 </Box>
             </CardContent>
