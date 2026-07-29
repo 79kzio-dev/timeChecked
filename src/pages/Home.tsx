@@ -50,7 +50,7 @@ export default function Home() {
         elevation={0}
         onClick={() => navigate("/")}
         sx={{
-          p: 3,
+          p: 2,
           mb: 3,
           borderRadius: 4,
           bgcolor: "primary.main",
@@ -67,25 +67,32 @@ export default function Home() {
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            gap: 0
+            gap: 1
           }}
         >
           <VerifiedUserIcon fontSize="medium" />
 
           <Typography
-            variant="h6"
             sx={{
-              fontWeight: 700
+              fontWeight: 700,
+              fontSize: {
+                xs: 16,
+                sm: 18
+              },
+              lineHeight: 1.4,
+              textAlign: "center"
             }}
           >
-            The Guardians 강남점 시설물 점검 관리
+            The Guardians 강남점
+            <br />
+            시설물 점검 관리
           </Typography>
         </Box>
 
         <Typography
           sx={{
             mt: 1,
-            textAlign: "end",
+            textAlign: "right",
             opacity: 0.9,
             fontSize: 15
           }}
