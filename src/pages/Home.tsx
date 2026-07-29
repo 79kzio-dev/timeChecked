@@ -1,7 +1,5 @@
 import { Box, Container, Paper, Typography } from "@mui/material";
-
 import VerifiedUserIcon from "@mui/icons-material/VerifiedUser";
-
 import MenuCard from "../components/MenuCard";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -42,7 +40,12 @@ export default function Home() {
     <Container
       maxWidth="sm"
       sx={{
-        py: 3
+        height: "100dvh",
+        display: "flex",
+        flexDirection: "column",
+        py: 2,
+        px: 2,
+        overflow: "hidden"
       }}
     >
       {/* Header */}
@@ -51,13 +54,11 @@ export default function Home() {
         onClick={() => navigate("/")}
         sx={{
           p: 2,
-          mb: 3,
+          mb: 2,
           borderRadius: 4,
           bgcolor: "primary.main",
           color: "primary.contrastText",
-          position: "sticky",
-          top: 0,
-          zIndex: 1000,
+          flexShrink: 0,
           display: "flex",
           flexDirection: "column"
         }}
@@ -94,115 +95,127 @@ export default function Home() {
             mt: 1,
             textAlign: "right",
             opacity: 0.9,
-            fontSize: 15
+            fontSize: 14
           }}
         >
           {currentTime}
         </Typography>
       </Paper>
 
-      <MenuCard
-        title="본관 종합점검"
-        onClick={() =>
-          navigate("/worker", {
-            state: {
-              type: "Mb"
-            }
-          })
-        }
-      />
-      <MenuCard
-        title="신관 종합점검"
-        onClick={() =>
-          navigate("/worker", {
-            state: {
-              type: "Nb"
-            }
-          })
-        }
-      />
-      <MenuCard
-        title="HOS 종합점검"
-        onClick={() =>
-          navigate("/worker", {
-            state: {
-              type: "Hos"
-            }
-          })
-        }
-      />
-      <MenuCard
-        title="식품관 점검"
-        onClick={() =>
-          navigate("/worker", {
-            state: {
-              type: "Food"
-            }
-          })
-        }
-      />
-      <MenuCard
-        title="스위트 파크 점검"
-        onClick={() =>
-          navigate("/worker", {
-            state: {
-              type: "Sweet"
-            }
-          })
-        }
-      />
-      <MenuCard
-        title="외곽 및 점외 시설물 점검"
-        onClick={() =>
-          navigate("/worker", {
-            state: {
-              type: "Out"
-            }
-          })
-        }
-      />
-      <MenuCard
-        title="기술 점검"
-        onClick={() =>
-          navigate("/worker", {
-            state: {
-              type: "Tech"
-            }
-          })
-        }
-      />
-      <MenuCard
-        title="보조 배터리 점검"
-        onClick={() =>
-          navigate("/worker", {
-            state: {
-              type: "Battery"
-            }
-          })
-        }
-      />
-      <MenuCard
-        title="누수 점검"
-        onClick={() =>
-          navigate("/worker", {
-            state: {
-              type: "Water"
-            }
-          })
-        }
-      />
-      <MenuCard title="메모G" onClick={() => navigate("/memo", {})} />
-
-      <Typography
+      {/* 메뉴 영역만 스크롤 */}
+      <Box
         sx={{
-          mt: 4,
-          textAlign: "end",
-          color: "text.secondary",
-          fontSize: 14
+          flex: 1,
+          minHeight: 0,
+          overflowY: "auto",
+          pr: 0.5,
+          // 스크롤바 숨김
+          "&::-webkit-scrollbar": {
+            display: "none"
+          },
+
+          // Firefox
+          scrollbarWidth: "none",
+
+          // IE, Edge 구버전
+          msOverflowStyle: "none"
         }}
       >
-        Developed by Kzio
-      </Typography>
+        <MenuCard
+          title="본관 종합점검"
+          onClick={() =>
+            navigate("/worker", {
+              state: { type: "Mb" }
+            })
+          }
+        />
+
+        <MenuCard
+          title="신관 종합점검"
+          onClick={() =>
+            navigate("/worker", {
+              state: { type: "Nb" }
+            })
+          }
+        />
+
+        <MenuCard
+          title="HOS 종합점검"
+          onClick={() =>
+            navigate("/worker", {
+              state: { type: "Hos" }
+            })
+          }
+        />
+
+        <MenuCard
+          title="식품관 점검"
+          onClick={() =>
+            navigate("/worker", {
+              state: { type: "Food" }
+            })
+          }
+        />
+
+        <MenuCard
+          title="스위트 파크 점검"
+          onClick={() =>
+            navigate("/worker", {
+              state: { type: "Sweet" }
+            })
+          }
+        />
+
+        <MenuCard
+          title="외곽 및 점외 시설물 점검"
+          onClick={() =>
+            navigate("/worker", {
+              state: { type: "Out" }
+            })
+          }
+        />
+
+        <MenuCard
+          title="기술 점검"
+          onClick={() =>
+            navigate("/worker", {
+              state: { type: "Tech" }
+            })
+          }
+        />
+
+        <MenuCard
+          title="보조 배터리 점검"
+          onClick={() =>
+            navigate("/worker", {
+              state: { type: "Battery" }
+            })
+          }
+        />
+
+        <MenuCard
+          title="누수 점검"
+          onClick={() =>
+            navigate("/worker", {
+              state: { type: "Water" }
+            })
+          }
+        />
+
+        <MenuCard title="메모G" onClick={() => navigate("/memo")} />
+
+        <Typography
+          sx={{
+            mt: 4,
+            mb: 2,
+            textAlign: "right",
+            color: "text.secondary",
+            fontSize: 14
+          }}
+        >
+          Developed by Kzio
+        </Typography>
+      </Box>
     </Container>
   );
 }

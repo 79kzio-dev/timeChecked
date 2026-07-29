@@ -177,7 +177,17 @@ export default function Check() {
           overflowY: "auto",
           mt: 2,
           mb: 2,
-          pr: 0.5
+          pr: 0.5,
+          // 스크롤바 숨김
+          "&::-webkit-scrollbar": {
+            display: "none"
+          },
+
+          // Firefox
+          scrollbarWidth: "none",
+
+          // IE, Edge 구버전
+          msOverflowStyle: "none"
         }}
       >
         {items.map((item, index) => (
