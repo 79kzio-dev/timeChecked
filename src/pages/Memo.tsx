@@ -12,17 +12,20 @@ export default function Memo() {
     <Container
       maxWidth="sm"
       sx={{
-        py: 3
+        height: "100dvh",
+        display: "flex",
+        flexDirection: "column",
+        py: 2,
+        overflow: "hidden"
       }}
     >
+      {/* Header */}
       <Box
         sx={{
-          position: "sticky",
-          top: 0,
-          zIndex: 1000,
+          flexShrink: 0,
           display: "flex",
           alignItems: "center",
-          mb: 3,
+          mb: 2,
           bgcolor: "background.default",
           py: 1
         }}
@@ -33,7 +36,7 @@ export default function Memo() {
 
         <Typography
           sx={{
-            width: "100%",
+            flex: 1,
             textAlign: "center",
             fontSize: 28,
             fontWeight: 700,
@@ -44,9 +47,24 @@ export default function Memo() {
         </Typography>
       </Box>
 
-      {memoData.map((item, index) => (
-        <MemoCard key={index} item={item} />
-      ))}
+      {/* Memo 영역만 스크롤 */}
+      <Box
+        sx={{
+          flex: 1,
+          minHeight: 0,
+          overflowY: "auto",
+
+          "&::-webkit-scrollbar": {
+            display: "none"
+          },
+          scrollbarWidth: "none",
+          msOverflowStyle: "none"
+        }}
+      >
+        {memoData.map((item, index) => (
+          <MemoCard key={index} item={item} />
+        ))}
+      </Box>
     </Container>
   );
 }
