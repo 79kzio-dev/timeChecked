@@ -40,11 +40,13 @@ export default function CheckCard({
           <Typography
             sx={{
               flex: 1,
+              pl: 1,
               fontWeight: 700,
-              fontSize: "1.05rem",
+              fontSize: 17,
               overflow: "hidden",
               textOverflow: "ellipsis",
-              whiteSpace: "nowrap"
+              whiteSpace: "nowrap",
+              textAlign: "left"
             }}
           >
             {item.name}

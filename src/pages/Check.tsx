@@ -33,12 +33,12 @@ const now = () => {
 export default function Check() {
   const location = useLocation();
   const navigate = useNavigate();
+
   const [homeOpen, setHomeOpen] = useState(false);
   const [addOpen, setAddOpen] = useState(false);
   const [newItemName, setNewItemName] = useState("");
 
   const type = (location.state?.type as keyof typeof checkData) ?? "Mb";
-
   const worker = location.state?.worker ?? "";
 
   const storageKey = `check_${type}_${worker}`;
@@ -52,7 +52,6 @@ export default function Check() {
 
   const [items, setItems] = useState<CheckItem[]>(() => {
     const saved = localStorage.getItem(storageKey);
-
     return saved ? JSON.parse(saved) : createItems();
   });
 
@@ -86,17 +85,17 @@ export default function Check() {
     );
   };
 
-  //점검 추가 버튼
   const addItem = () => {
     if (!newItemName.trim()) return;
 
-    const newItem: CheckItem = {
-      name: newItemName.trim(),
-      startTime: "",
-      endTime: ""
-    };
-
-    setItems((prev) => [...prev, newItem]);
+    setItems((prev) => [
+      ...prev,
+      {
+        name: newItemName.trim(),
+        startTime: "",
+        endTime: ""
+      }
+    ]);
 
     setNewItemName("");
     setAddOpen(false);
@@ -114,19 +113,18 @@ export default function Check() {
     <Container
       maxWidth="sm"
       sx={{
-        mt: 3,
-        pb: 3
+        height: "100vh",
+        display: "flex",
+        flexDirection: "column",
+        py: 2
       }}
     >
       {/* Header */}
       <Box
         sx={{
-          position: "sticky",
-          top: 0,
-          zIndex: 1000,
           bgcolor: "background.default",
           pb: 2,
-          mb: 3
+          flexShrink: 0
         }}
       >
         <Box
@@ -151,7 +149,7 @@ export default function Check() {
             {typeName[type]}
           </Typography>
 
-          {/*점검 추가 버튼*/}
+          {/* 점검 추가 */}
           <IconButton color="primary" onClick={() => setAddOpen(true)}>
             <AddIcon />
           </IconButton>
@@ -160,9 +158,9 @@ export default function Check() {
         <Typography
           sx={{
             mt: 2,
+            textAlign: "center",
             fontWeight: 700,
-            fontSize: "1.1rem",
-            textAlign: "center"
+            fontSize: 17
           }}
         >
           {type === "Tech"
@@ -171,47 +169,38 @@ export default function Check() {
         </Typography>
       </Box>
 
-      {items.map((item, index) => (
-        <CheckCard
-          key={index}
-          item={item}
-          onStart={() => startItem(index)}
-          onEnd={() => endItem(index)}
-        />
-      ))}
+      {/* 체크리스트(여기만 스크롤) */}
+      <Box
+        sx={{
+          flex: 1,
+          minHeight: 0,
+          overflowY: "auto",
+          mt: 2,
+          mb: 2,
+          pr: 0.5
+        }}
+      >
+        {items.map((item, index) => (
+          <CheckCard
+            key={index}
+            item={item}
+            onStart={() => startItem(index)}
+            onEnd={() => endItem(index)}
+          />
+        ))}
+      </Box>
 
-      {/* 추가 FAB */}
-      {/*<Box*/}
-      {/*  sx={{*/}
-      {/*    display: "flex",*/}
-      {/*    justifyContent: "flex-end",*/}
-      {/*    right: {*/}
-      {/*      xs: 20,*/}
-      {/*      sm: "calc((100vw - 600px) / 2 + 20px)"*/}
-      {/*    },*/}
-      {/*    bottom: 90,*/}
-      {/*    zIndex: 1100,*/}
-      {/*    mt: 2,*/}
-      {/*    mb: 2*/}
-      {/*  }}*/}
-      {/*>*/}
-      {/*  <Fab*/}
-      {/*    color="primary"*/}
-      {/*    size="small"*/}
-      {/*    onClick={() => setAddOpen(true)}*/}
-      {/*    sx={{*/}
-      {/*      width: 40,*/}
-      {/*      height: 40,*/}
-      {/*      minHeight: 40,*/}
-      {/*      boxShadow: 2*/}
-      {/*    }}*/}
-      {/*  >*/}
-      {/*    <AddIcon />*/}
-      {/*  </Fab>*/}
-      {/* </Box>*/}
-
-      {/*확인 버튼*/}
-      <Box sx={{ mt: 4 }}>
+      {/* 하단 고정 확인 버튼 */}
+      <Box
+        sx={{
+          flexShrink: 0,
+          pt: 2,
+          pb: 1,
+          bgcolor: "background.default",
+          borderTop: "1px solid",
+          borderColor: "divider"
+        }}
+      >
         <Button
           fullWidth
           variant="contained"
@@ -233,6 +222,7 @@ export default function Check() {
         </Button>
       </Box>
 
+      {/* 홈 이동 Dialog */}
       <Dialog open={homeOpen} onClose={() => setHomeOpen(false)}>
         <DialogTitle>홈으로 이동</DialogTitle>
 
@@ -253,7 +243,7 @@ export default function Check() {
         </DialogActions>
       </Dialog>
 
-      {/*//FAB추가 Dialog*/}
+      {/* 점검 항목 추가 Dialog */}
       <Dialog open={addOpen} onClose={() => setAddOpen(false)}>
         <DialogTitle>점검 항목 추가</DialogTitle>
 
