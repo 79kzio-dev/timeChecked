@@ -17,9 +17,14 @@ export default function Memo() {
     >
       <Box
         sx={{
+          position: "sticky",
+          top: 0,
+          zIndex: 1000,
           display: "flex",
           alignItems: "center",
-          mb: 3
+          mb: 3,
+          bgcolor: "background.default",
+          py: 1
         }}
       >
         <IconButton color="inherit" onClick={() => navigate("/")}>
