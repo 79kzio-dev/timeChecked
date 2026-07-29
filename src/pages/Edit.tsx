@@ -56,6 +56,12 @@ export default function Edit() {
       result += `${item.name.padEnd(15, " ")} ${time}\n`;
     });
 
+    if (!["Mb", "Nb", "Hos"].includes(type)) {
+      result += "\n";
+      result += "외 점검 특이사항 없습니다.";
+    }
+
+
     return result;
   };
 

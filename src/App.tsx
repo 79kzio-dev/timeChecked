@@ -3,7 +3,6 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Home from "./pages/Home";
 import Worker from "./pages/Worker";
 import Check from "./pages/Check";
-import Result from "./pages/Result";
 import Memo from "./pages/Memo";
 import Edit from "./pages/Edit";
 import { CssBaseline, ThemeProvider, useMediaQuery } from "@mui/material";
@@ -16,7 +15,7 @@ export default function App() {
   return (
     <ThemeProvider theme={darkMode ? darkTheme : lightTheme}>
       <CssBaseline />
-      
+
       <BrowserRouter>
         <Routes>
           <Route
@@ -30,10 +29,6 @@ export default function App() {
           <Route
             path="/check"
             element={<Check />}
-          />
-          <Route
-            path="/result"
-            element={<Result />}
           />
           <Route
             path="/memo"
