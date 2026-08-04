@@ -83,6 +83,8 @@ export const checkData: Record<string, CheckItem[]> = {
     { name: "와인 하우스", startTime: "", endTime: "" },
     { name: "오설록", startTime: "", endTime: "" },
     { name: "네스프레소", startTime: "", endTime: "" },
+    { name: "폼폼푸린", startTime: "", endTime: "" },
+    { name: "마리메꼬", startTime: "", endTime: "" },
     { name: "언어더팜", startTime: "", endTime: "" },
     { name: "벨루엔", startTime: "", endTime: "" },
     { name: "아임도넛", startTime: "", endTime: "" },
