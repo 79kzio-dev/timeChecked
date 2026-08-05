@@ -17,7 +17,7 @@ import {
 } from "@mui/material";
 
 import { useLocation, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { typeName } from "../data/TypeName";
 import type { CheckItem } from "../data/CheckItem";
@@ -73,6 +73,23 @@ export default function Edit() {
 
   const [homeOpen, setHomeOpen] = useState(false);
 
+  useEffect(() => {
+    if ("serviceWorker" in navigator) {
+      const handler = () => {
+        window.location.reload();
+      };
+
+      navigator.serviceWorker.addEventListener("controllerchange", handler);
+
+      return () => {
+        navigator.serviceWorker.removeEventListener(
+          "controllerchange",
+          handler,
+        );
+      };
+    }
+  }, []);
+
   const saveResult = () => {
     setOpen(true);
   };
@@ -92,6 +109,7 @@ export default function Edit() {
 
       // 1초 후 홈으로 이동
       setTimeout(() => {
+
         navigate("/");
       }, 1000);
     } catch (error) {

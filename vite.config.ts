@@ -7,8 +7,12 @@ export default defineConfig({
     react(),
     VitePWA({
       registerType: "autoUpdate",
+      workbox: {
+        skipWaiting: true,
+        clientsClaim: true
+      },
       manifest: {
-        "lang": "ko",
+        lang: "ko",
         name: "TimeChecked",
         short_name: "TimeChecked",
         description: "시설물 점검 관리 시스템",

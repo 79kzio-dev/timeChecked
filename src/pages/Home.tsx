@@ -6,6 +6,15 @@ import { useNavigate } from "react-router-dom";
 
 export default function Home() {
   const [currentTime, setCurrentTime] = useState("");
+  const navigate = useNavigate();
+
+  // 업데이트가 대기 중이면 홈에서 자동 적용
+  useEffect(() => {
+    if (localStorage.getItem("updatePending") === "true") {
+      localStorage.removeItem("updatePending");
+      window.location.reload();
+    }
+  }, []);
 
   useEffect(() => {
     const updateTime = () => {
@@ -33,8 +42,6 @@ export default function Home() {
 
     return () => clearInterval(timer);
   }, []);
-
-  const navigate = useNavigate();
 
   return (
     <Container
@@ -109,15 +116,12 @@ export default function Home() {
           minHeight: 0,
           overflowY: "auto",
           pr: 0.5,
-          // 스크롤바 숨김
+
           "&::-webkit-scrollbar": {
             display: "none"
           },
 
-          // Firefox
           scrollbarWidth: "none",
-
-          // IE, Edge 구버전
           msOverflowStyle: "none"
         }}
       >

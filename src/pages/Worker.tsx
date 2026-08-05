@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Box, Button, Container, Paper, TextField, Typography } from "@mui/material";
 
 import { typeName } from "../data/TypeName";
@@ -9,6 +9,13 @@ export default function Worker() {
 
   const navigate = useNavigate();
   const location = useLocation();
+
+  useEffect(() => {
+    if (localStorage.getItem("updatePending") === "true") {
+      localStorage.removeItem("updatePending");
+      window.location.reload();
+    }
+  }, []);
 
   // Home에서 전달받을 점검 종류
   const type = location.state?.type ?? "점검";
@@ -25,6 +32,7 @@ export default function Worker() {
     });
 
   };
+
 
   return (
     <Container
