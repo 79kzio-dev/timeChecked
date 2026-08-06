@@ -57,7 +57,7 @@ export default function CheckCard({ id, item, onStart, onEnd }: Props) {
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              width: 32,
+              width: 15,
               cursor: "grab",
               color: "text.secondary",
               touchAction: "none",
