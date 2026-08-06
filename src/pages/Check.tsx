@@ -15,15 +15,14 @@ import {
 import HomeIcon from "@mui/icons-material/Home";
 import AddIcon from "@mui/icons-material/Add";
 import { useLocation, useNavigate } from "react-router-dom";
-import { closestCenter, DndContext, type DragEndEvent } from "@dnd-kit/core";
-import { arrayMove, SortableContext, verticalListSortingStrategy } from "@dnd-kit/sortable";
 
 import { checkData } from "../data/CheckData";
 import { typeName } from "../data/TypeName";
 import CheckCard from "../components/CheckCard";
 import type { CheckItem } from "../data/CheckItem";
 import { resetAllChecks } from "../data/Storage.ts";
-import usePwaUpdate from "../hooks/usePwaUpdate.ts";
+import { closestCenter, DndContext, type DragEndEvent, PointerSensor, useSensor, useSensors } from "@dnd-kit/core";
+import { arrayMove, SortableContext, verticalListSortingStrategy } from "@dnd-kit/sortable";
 
 const now = () => {
   return new Date().toLocaleTimeString("ko-KR", {
@@ -38,9 +37,6 @@ export default function Check() {
   const navigate = useNavigate();
 
   const [homeOpen, setHomeOpen] = useState(false);
-
-  usePwaUpdate();
-
   const [addOpen, setAddOpen] = useState(false);
   const [newItemName, setNewItemName] = useState("");
 
@@ -58,21 +54,20 @@ export default function Check() {
 
   const [items, setItems] = useState<CheckItem[]>(() => {
     const saved = localStorage.getItem(storageKey);
-
-    const result: CheckItem[] = saved ? JSON.parse(saved) : createItems();
-
-    const savedOrder = localStorage.getItem(`${storageKey}_order`);
-    if (savedOrder) {
-      const order = JSON.parse(savedOrder);
-      result.sort(
-        (a: CheckItem, b: CheckItem) =>
-          order.indexOf(a.name) - order.indexOf(b.name)
-      );
-    }
-    return result;
+    return saved ? JSON.parse(saved) : createItems();
   });
 
-  const itemIds = items.map((item: CheckItem) => item.name);
+  const itemIds = items.map((item) => item.name);
+
+  const sensors = useSensors(
+    useSensor(PointerSensor, {
+      activationConstraint: {
+        //delayㅣ시간
+        delay: 300,
+        tolerance: 5
+      }
+    })
+  );
 
   useEffect(() => {
     localStorage.setItem(storageKey, JSON.stringify(items));
@@ -112,33 +107,22 @@ export default function Check() {
     setItems((prev) => {
       const oldIndex = prev.findIndex((item) => item.name === active.id);
       const newIndex = prev.findIndex((item) => item.name === over.id);
-      const newItems = arrayMove(prev, oldIndex, newIndex);
-      localStorage.setItem(
-        `${storageKey}_order`,
-        JSON.stringify(newItems.map((item) => item.name))
-      );
-      return newItems;
+
+      return arrayMove(prev, oldIndex, newIndex);
     });
   };
 
   const addItem = () => {
     if (!newItemName.trim()) return;
 
-    setItems((prev) => {
-      const newItems = [
-        ...prev,
-        {
-          name: newItemName.trim(),
-          startTime: "",
-          endTime: ""
-        }
-      ];
-      localStorage.setItem(
-        `${storageKey}_order`,
-        JSON.stringify(newItems.map((item) => item.name))
-      );
-      return newItems;
-    });
+    setItems((prev) => [
+      ...prev,
+      {
+        name: newItemName.trim(),
+        startTime: "",
+        endTime: ""
+      }
+    ]);
 
     setNewItemName("");
     setAddOpen(false);
@@ -212,6 +196,37 @@ export default function Check() {
         </Typography>
       </Box>
 
+      {/*/!* 체크리스트(여기만 스크롤) *!/*/}
+      {/*<Box*/}
+      {/*  sx={{*/}
+      {/*    flex: 1,*/}
+      {/*    minHeight: 0,*/}
+      {/*    overflowY: "auto",*/}
+      {/*    mt: 2,*/}
+      {/*    mb: 2,*/}
+      {/*    pr: 0.5,*/}
+      {/*    // 스크롤바 숨김*/}
+      {/*    "&::-webkit-scrollbar": {*/}
+      {/*      display: "none"*/}
+      {/*    },*/}
+
+      {/*    // Firefox*/}
+      {/*    scrollbarWidth: "none",*/}
+
+      {/*    // IE, Edge 구버전*/}
+      {/*    msOverflowStyle: "none"*/}
+      {/*  }}*/}
+      {/*>*/}
+      {/*  {items.map((item, index) => (*/}
+      {/*    <CheckCard*/}
+      {/*      key={index}*/}
+      {/*      item={item}*/}
+      {/*      onStart={() => startItem(index)}*/}
+      {/*      onEnd={() => endItem(index)}*/}
+      {/*    />*/}
+      {/*  ))}*/}
+      {/*</Box>*/}
+
       {/* 체크리스트(여기만 스크롤) */}
       <Box
         sx={{
@@ -221,14 +236,17 @@ export default function Check() {
           mt: 2,
           mb: 2,
           pr: 0.5,
+
           "&::-webkit-scrollbar": {
             display: "none"
           },
+
           scrollbarWidth: "none",
           msOverflowStyle: "none"
         }}
       >
         <DndContext
+          sensors={sensors}
           collisionDetection={closestCenter}
           onDragEnd={handleDragEnd}
         >
