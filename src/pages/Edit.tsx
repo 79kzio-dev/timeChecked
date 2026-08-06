@@ -180,7 +180,7 @@ export default function Edit() {
           </Typography>
         </Box>
 
-        <CardContent sx={{ p: 2 }}>
+        <CardContent sx={{ p: 3 }}>
           <TextField
             multiline
             minRows={15}
