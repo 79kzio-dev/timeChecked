@@ -12,21 +12,11 @@ type Props = {
   onEnd: () => void;
 };
 
-export default function CheckCard({
-                                    id,
-                                    item,
-                                    onStart,
-                                    onEnd
-                                  }: Props) {
-  const {
-    attributes,
-    listeners,
-    setNodeRef,
-    transform,
-    transition
-  } = useSortable({
-    id
-  });
+export default function CheckCard({ id, item, onStart, onEnd }: Props) {
+  const { attributes, listeners, setNodeRef, transform, transition } =
+    useSortable({
+      id
+    });
 
   const style = {
     transform: CSS.Transform.toString(transform),
@@ -55,7 +45,8 @@ export default function CheckCard({
           sx={{
             display: "flex",
             alignItems: "center",
-            gap: 1
+            justifyContent: "space-between",
+            gap: 2
           }}
         >
           {/* 드래그 핸들 */}
@@ -86,79 +77,116 @@ export default function CheckCard({
               fontSize: 17,
               overflow: "hidden",
               textOverflow: "ellipsis",
-              whiteSpace: "nowrap", textAlign: "left"
+              whiteSpace: "nowrap",
+              textAlign: "left"
             }}
           >
             {item.name}
           </Typography>
 
-          {/* 시작 */}
+          {/* 오른쪽 영역(Grid 고정) */}
           <Box
             sx={{
-              width: 60,
-              display: "flex",
-              justifyContent: "center"
+              display: "grid",
+              gridTemplateColumns: "60px 16px 60px",
+              alignItems: "center",
+              justifyContent: "end",
+              columnGap: 1,
+              flexShrink: 0
             }}
           >
-            {item.startTime ? (
-              <Typography
-                sx={{
-                  color: "primary.main",
-                  fontWeight: 700,
-                  fontSize: 16,
-                  fontVariantNumeric: "tabular-nums"
-                }}
-              >
-                {item.startTime}
-              </Typography>
-            ) : (
-              <Button
-                variant="contained"
-                size="small"
-                onClick={onStart}
-              >
-                시작
-              </Button>
-            )}
-          </Box>
+            {/* 시작 */}
+            <Box
+              sx={{
+                width: 52,
+                height: 30,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center"
+              }}
+            >
+              {item.startTime ? (
+                <Typography
+                  sx={{
+                    width: "100%",
+                    textAlign: "center",
+                    fontWeight: 700,
+                    color: "primary.main",
+                    whiteSpace: "nowrap",
+                    fontSize: 17,
+                    fontVariantNumeric: "tabular-nums"
+                  }}
+                >
+                  {item.startTime}
+                </Typography>
+              ) : (
+                <Button
+                  variant="contained"
+                  size="small"
+                  onClick={onStart}
+                  sx={{
+                    width: "100%",
+                    height: "100%",
+                    minWidth: 0,
+                    fontSize: 12
+                  }}
+                >
+                  시작
+                </Button>
+              )}
+            </Box>
 
-          <Typography
-            sx={{
-              mx: 1,
-              fontWeight: 700
-            }}
-          >
-            ~
-          </Typography>
+            {/* ~ */}
+            <Typography
+              sx={{
+                textAlign: "center",
+                fontWeight: 700,
+                fontSize: 15
+              }}
+            >
+              ~
+            </Typography>
 
-          {/* 종료 */}
-          <Box
-            sx={{
-              width: 60,
-              display: "flex",
-              justifyContent: "center"
-            }}
-          >
-            {item.endTime ? (
-              <Typography
-                sx={{
-                  color: "primary.main",
-                  fontWeight: 700,
-                  fontSize: 16,
-                  fontVariantNumeric: "tabular-nums"
-                }}
-              >
-                {item.endTime}
-              </Typography>
-            ) : (
-              <Button
-                variant="contained"
-                size="small"
-                onClick={onEnd}
-              >
-                종료
-              </Button>
-            )}
+            {/* 종료 */}
+            <Box
+              sx={{
+                width: 52,
+                height: 30,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center"
+              }}
+            >
+              {item.endTime ? (
+                <Typography
+                  sx={{
+                    width: "100%",
+                    textAlign: "center",
+                    fontWeight: 700,
+                    color: "primary.main",
+                    whiteSpace: "nowrap",
+                    fontSize: 17,
+                    fontVariantNumeric: "tabular-nums"
+                  }}
+                >
+                  {item.endTime}
+                </Typography>
+              ) : (
+                <Button
+                  variant="contained"
+                  size="small"
+                  onClick={onEnd}
+                  sx={{
+                    width: "100%",
+                    height: "100%",
+                    minWidth: 0,
+                    fontSize: 12
+                  }}
+                >
+                  종료
+                </Button>
+              )}
+            </Box>
           </Box>
         </Box>
       </CardContent>
