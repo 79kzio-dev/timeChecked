@@ -3,18 +3,13 @@ import VerifiedUserIcon from "@mui/icons-material/VerifiedUser";
 import MenuCard from "../components/MenuCard";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import usePwaUpdate from "../hooks/usePwaUpdate.ts";
 
 export default function Home() {
   const [currentTime, setCurrentTime] = useState("");
   const navigate = useNavigate();
 
-  // 업데이트가 대기 중이면 홈에서 자동 적용
-  useEffect(() => {
-    if (localStorage.getItem("updatePending") === "true") {
-      localStorage.removeItem("updatePending");
-      window.location.reload();
-    }
-  }, []);
+  usePwaUpdate();
 
   useEffect(() => {
     const updateTime = () => {

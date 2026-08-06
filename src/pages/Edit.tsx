@@ -17,12 +17,13 @@ import {
 } from "@mui/material";
 
 import { useLocation, useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import { typeName } from "../data/TypeName";
 import type { CheckItem } from "../data/CheckItem";
 import { resetAllChecks } from "../data/Storage.ts";
 import HomeIcon from "@mui/icons-material/Home";
+import usePwaUpdate from "../hooks/usePwaUpdate.ts";
 
 export default function Edit() {
   const location = useLocation();
@@ -73,22 +74,7 @@ export default function Edit() {
 
   const [homeOpen, setHomeOpen] = useState(false);
 
-  useEffect(() => {
-    if ("serviceWorker" in navigator) {
-      const handler = () => {
-        window.location.reload();
-      };
-
-      navigator.serviceWorker.addEventListener("controllerchange", handler);
-
-      return () => {
-        navigator.serviceWorker.removeEventListener(
-          "controllerchange",
-          handler,
-        );
-      };
-    }
-  }, []);
+  usePwaUpdate();
 
   const saveResult = () => {
     setOpen(true);

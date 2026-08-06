@@ -4,9 +4,12 @@ import { useNavigate } from "react-router-dom";
 
 import MemoCard from "../components/MemoCard";
 import { memoData } from "../data/MemoData";
+import usePwaUpdate from "../hooks/usePwaUpdate";
 
 export default function Memo() {
   const navigate = useNavigate();
+
+  usePwaUpdate()
 
   return (
     <Container
