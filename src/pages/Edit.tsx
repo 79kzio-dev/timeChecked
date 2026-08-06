@@ -54,7 +54,7 @@ export default function Edit() {
               ? `(미점검) ~ ${item.endTime}`
               : "(미점검)";
 
-      result += `${item.name.padEnd(15, " ")} ${time}\n`;
+      result += `${item.name.padEnd(17, " ")} ${time}\n`;
     });
 
     if (!["Mb", "Nb", "Hos"].includes(type)) {
@@ -180,7 +180,7 @@ export default function Edit() {
           </Typography>
         </Box>
 
-        <CardContent sx={{ p: 3 }}>
+        <CardContent sx={{ p: 2 }}>
           <TextField
             multiline
             minRows={15}
