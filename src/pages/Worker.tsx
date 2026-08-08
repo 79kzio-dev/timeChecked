@@ -4,14 +4,11 @@ import { Box, Button, Container, Paper, TextField, Typography } from "@mui/mater
 import { typeName } from "../data/TypeName";
 import PersonIcon from "@mui/icons-material/Person";
 import { useLocation, useNavigate } from "react-router-dom";
-import usePwaUpdate from "../hooks/usePwaUpdate.ts";
 
 export default function Worker() {
 
   const navigate = useNavigate();
   const location = useLocation();
-
-  usePwaUpdate();
 
   // Home에서 전달받을 점검 종류
   const type = location.state?.type ?? "점검";

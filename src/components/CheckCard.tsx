@@ -57,6 +57,7 @@ export default function CheckCard({ id, item, onStart, onEnd }: Props) {
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
+              //width는 사이즈 변경
               width: 15,
               cursor: "grab",
               color: "text.secondary",
