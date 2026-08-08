@@ -260,7 +260,6 @@ export default function Home() {
       {/* PWA 업데이트 Snackbar */}
       <Snackbar
         open={updateStatus !== "idle"}
-        autoHideDuration={2000}
         anchorOrigin={{
           vertical: "bottom",
           horizontal: "center"
