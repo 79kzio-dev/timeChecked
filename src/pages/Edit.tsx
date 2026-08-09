@@ -1,270 +1,271 @@
 import {
-    Alert,
-    Box,
-    Button,
-    Card,
-    CardContent,
-    Container,
-    Dialog,
-    DialogActions,
-    DialogContent,
-    DialogContentText,
-    DialogTitle,
-    IconButton,
-    Snackbar,
-    TextField,
-    Typography
+  Alert,
+  Box,
+  Button,
+  Card,
+  CardContent,
+  Container,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  IconButton,
+  Snackbar,
+  TextField,
+  Typography
 } from "@mui/material";
 
-import {useLocation, useNavigate} from "react-router-dom";
-import {useState} from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useState } from "react";
 
-import {typeName} from "../data/TypeName";
-import type {CheckItem} from "../data/CheckItem";
-import {resetAllChecks} from "../data/Storage.ts";
+import { typeName } from "../data/TypeName";
+import type { CheckItem } from "../data/CheckItem";
+import { resetAllChecks } from "../data/Storage.ts";
 import HomeIcon from "@mui/icons-material/Home";
 
 export default function Edit() {
-    const location = useLocation();
-    const navigate = useNavigate();
+  const location = useLocation();
+  const navigate = useNavigate();
 
-    const type = location.state?.type as keyof typeof typeName;
+  const type = location.state?.type as keyof typeof typeName;
 
-    const worker = location.state?.worker ?? "";
+  const worker = location.state?.worker ?? "";
 
-    const items = (location.state?.items as CheckItem[]) ?? [];
+  const items = (location.state?.items as CheckItem[]) ?? [];
 
-    const createReport = () => {
-        let result = "";
+  const createReport = () => {
+    let result = "";
 
-        if (type === "Tech") {
-            result = `${typeName[type]} 기술팀 ${worker || "미입력"} 님\n\n`;
-        } else {
-            result = `${typeName[type]} ${worker || "미입력"} 근무자\n\n`;
-        }
+    if (type === "Tech") {
+      result = `${typeName[type]} 기술팀 ${worker || "미입력"} 님\n\n`;
+    } else {
+      result = `${typeName[type]} ${worker || "미입력"} 근무자\n\n`;
+    }
 
-        items.forEach((item) => {
-            const time =
-                item.startTime && item.endTime
-                    ? `${item.startTime} ~ ${item.endTime}`
-                    : item.startTime
-                        ? `${item.startTime} ~ (미점검)`
-                        : item.endTime
-                            ? `(미점검) ~ ${item.endTime}`
-                            : "(미점검)";
+    items.forEach((item) => {
+      const time =
+        item.startTime && item.endTime
+          ? `${item.startTime} ~ ${item.endTime}`
+          : item.startTime
+            ? `${item.startTime} ~ (미점검)`
+            : item.endTime
+              ? `(미점검) ~ ${item.endTime}`
+              : "(미점검)";
 
-            result += `${item.name}  ${time}\n`;
-        });
+      //점검구역과 시간사이의 간격
+      result += `${item.name} ${time}\n`;
+    });
 
-        if (!["Mb", "Nb", "Hos"].includes(type)) {
-            result += "\n";
-            result += "외 점검 특이사항 없습니다.";
-        }
+    if (!["Mb", "Nb", "Hos"].includes(type)) {
+      result += "\n";
+      result += "외 점검 특이사항 없습니다.";
+    }
 
 
-        return result;
-    };
+    return result;
+  };
 
-    const [reportText, setReportText] = useState(createReport());
+  const [reportText, setReportText] = useState(createReport());
 
-    const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(false);
 
-    const [snackOpen, setSnackOpen] = useState(false);
+  const [snackOpen, setSnackOpen] = useState(false);
 
-    const [homeOpen, setHomeOpen] = useState(false);
+  const [homeOpen, setHomeOpen] = useState(false);
 
-    const saveResult = () => {
-        setOpen(true);
-    };
+  const saveResult = () => {
+    setOpen(true);
+  };
 
-    const copyResult = async () => {
-        setOpen(false);
+  const copyResult = async () => {
+    setOpen(false);
 
-        try {
-            // 클립보드 복사
-            await navigator.clipboard.writeText(reportText);
+    try {
+      // 클립보드 복사
+      await navigator.clipboard.writeText(reportText);
 
-            // 현재 점검 데이터 삭제
-            resetAllChecks();
+      // 현재 점검 데이터 삭제
+      resetAllChecks();
 
-            // 복사 완료 Snackbar
-            setSnackOpen(true);
+      // 복사 완료 Snackbar
+      setSnackOpen(true);
 
-            // 1초 후 홈으로 이동
-            setTimeout(() => {
-
-                navigate("/");
-            }, 1000);
-        } catch (error) {
-            console.error(error);
-            alert("복사에 실패했습니다.");
-        }
-    };
-
-    const goHome = () => {
-        setHomeOpen(false);
-
-        resetAllChecks();
+      // 1초 후 홈으로 이동
+      setTimeout(() => {
 
         navigate("/");
-    };
+      }, 1000);
+    } catch (error) {
+      console.error(error);
+      alert("복사에 실패했습니다.");
+    }
+  };
 
-    const title = typeName[type];
+  const goHome = () => {
+    setHomeOpen(false);
 
-    // 여기부터 화면
-    return (
-        <Container
-            maxWidth="sm"
-            sx={{
-                mt: 4,
-                pb: 5
-            }}
+    resetAllChecks();
+
+    navigate("/");
+  };
+
+  const title = typeName[type];
+
+  // 여기부터 화면
+  return (
+    <Container
+      maxWidth="sm"
+      sx={{
+        mt: 4,
+        pb: 5
+      }}
+    >
+      {/* 상단 헤더 */}
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          position: "relative",
+          mb: 3,
+          px: 1
+        }}
+      >
+        <IconButton onClick={() => setHomeOpen(true)}>
+          <HomeIcon />
+        </IconButton>
+
+        <Typography
+          sx={{
+            position: "absolute",
+            left: "50%",
+            transform: "translateX(-50%)",
+            fontSize: "1.3rem",
+            fontWeight: 700,
+            whiteSpace: "nowrap"
+          }}
         >
-            {/* 상단 헤더 */}
-            <Box
-                sx={{
-                    display: "flex",
-                    alignItems: "center",
-                    position: "relative",
-                    mb: 3,
-                    px: 1
-                }}
-            >
-                <IconButton onClick={() => setHomeOpen(true)}>
-                    <HomeIcon/>
-                </IconButton>
+          {title}
+        </Typography>
+      </Box>
 
-                <Typography
-                    sx={{
-                        position: "absolute",
-                        left: "50%",
-                        transform: "translateX(-50%)",
-                        fontSize: "1.3rem",
-                        fontWeight: 700,
-                        whiteSpace: "nowrap"
-                    }}
-                >
-                    {title}
-                </Typography>
-            </Box>
+      {/* 점검 결과 */}
+      <Card
+        elevation={2}
+        sx={{
+          borderRadius: 4,
+          mb: 4,
+          overflow: "hidden"
+        }}
+      >
+        {/* 카드 상단 영역 */}
+        <Box
+          sx={{
+            py: 2,
+            borderBottom: "2px solid",
+            borderColor: "divider",
+            mb: 2
+          }}
+        >
+          <Typography
+            sx={{
+              textAlign: "center",
+              fontWeight: 700,
+              fontSize: "1.1rem"
+            }}
+          >
+            점검 결과 수정
+          </Typography>
+        </Box>
 
-            {/* 점검 결과 */}
-            <Card
-                elevation={2}
-                sx={{
-                    borderRadius: 4,
-                    mb: 4,
-                    overflow: "hidden"
-                }}
-            >
-                {/* 카드 상단 영역 */}
-                <Box
-                    sx={{
-                        py: 2,
-                        borderBottom: "2px solid",
-                        borderColor: "divider",
-                        mb: 2
-                    }}
-                >
-                    <Typography
-                        sx={{
-                            textAlign: "center",
-                            fontWeight: 700,
-                            fontSize: "1.1rem"
-                        }}
-                    >
-                        점검 결과 수정
-                    </Typography>
-                </Box>
+        <CardContent sx={{ p: 2 }}>
+          <TextField
+            multiline
+            minRows={15}
+            fullWidth
+            value={reportText}
+            onChange={(e) => setReportText(e.target.value)}
+            variant="outlined"
+            sx={{
+              "& .MuiOutlinedInput-root": {
+                borderRadius: 3,
+                bgcolor: "background.paper"
+              },
 
-                <CardContent sx={{p: 2}}>
-                    <TextField
-                        multiline
-                        minRows={15}
-                        fullWidth
-                        value={reportText}
-                        onChange={(e) => setReportText(e.target.value)}
-                        variant="outlined"
-                        sx={{
-                            "& .MuiOutlinedInput-root": {
-                                borderRadius: 3,
-                                bgcolor: "background.paper"
-                            },
+              "& textarea": {
+                fontSize: 15,
+                lineHeight: 1.8,
+                fontFamily: "inherit"
+              }
+            }}
+          />
+        </CardContent>
+      </Card>
 
-                            "& textarea": {
-                                fontSize: 15,
-                                lineHeight: 1.8,
-                                fontFamily: "inherit"
-                            }
-                        }}
-                    />
-                </CardContent>
-            </Card>
+      <Button
+        fullWidth
+        variant="contained"
+        onClick={saveResult}
+        sx={{
+          height: 52,
+          borderRadius: 3,
+          fontSize: "1rem",
+          fontWeight: 700
+        }}
+      >
+        확인
+      </Button>
 
-            <Button
-                fullWidth
-                variant="contained"
-                onClick={saveResult}
-                sx={{
-                    height: 52,
-                    borderRadius: 3,
-                    fontSize: "1rem",
-                    fontWeight: 700
-                }}
-            >
-                확인
-            </Button>
+      <Dialog open={open} onClose={() => setOpen(false)}>
+        <DialogTitle>결과 복사</DialogTitle>
 
-            <Dialog open={open} onClose={() => setOpen(false)}>
-                <DialogTitle>결과 복사</DialogTitle>
+        <DialogContent>
+          <DialogContentText>점검 결과를 복사하시겠습니까?</DialogContentText>
+        </DialogContent>
 
-                <DialogContent>
-                    <DialogContentText>점검 결과를 복사하시겠습니까?</DialogContentText>
-                </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setOpen(false)}>아니오</Button>
 
-                <DialogActions>
-                    <Button onClick={() => setOpen(false)}>아니오</Button>
+          <Button variant="contained" onClick={copyResult}>
+            예
+          </Button>
+        </DialogActions>
+      </Dialog>
 
-                    <Button variant="contained" onClick={copyResult}>
-                        예
-                    </Button>
-                </DialogActions>
-            </Dialog>
+      <Dialog open={homeOpen} onClose={() => setHomeOpen(false)}>
+        <DialogTitle>홈으로 이동</DialogTitle>
 
-            <Dialog open={homeOpen} onClose={() => setHomeOpen(false)}>
-                <DialogTitle>홈으로 이동</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            홈으로 이동하시겠습니까?
+            <br />
+            진행 중인 모든 점검 내용이 초기화됩니다.
+          </DialogContentText>
+        </DialogContent>
 
-                <DialogContent>
-                    <DialogContentText>
-                        홈으로 이동하시겠습니까?
-                        <br/>
-                        진행 중인 모든 점검 내용이 초기화됩니다.
-                    </DialogContentText>
-                </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setHomeOpen(false)}>취소</Button>
 
-                <DialogActions>
-                    <Button onClick={() => setHomeOpen(false)}>취소</Button>
+          <Button variant="contained" color="error" onClick={goHome}>
+            확인
+          </Button>
+        </DialogActions>
+      </Dialog>
 
-                    <Button variant="contained" color="error" onClick={goHome}>
-                        확인
-                    </Button>
-                </DialogActions>
-            </Dialog>
-
-            <Snackbar
-                open={snackOpen}
-                autoHideDuration={1000}
-                onClose={() => setSnackOpen(false)}
-                anchorOrigin={{
-                    vertical: "bottom",
-                    horizontal: "center"
-                }}
-            >
-                <Alert severity="success" variant="filled" sx={{width: "100%"}}>
-                    점검 결과가 복사되었습니다.
-                </Alert>
-            </Snackbar>
-        </Container>
-    );
+      <Snackbar
+        open={snackOpen}
+        autoHideDuration={1000}
+        onClose={() => setSnackOpen(false)}
+        anchorOrigin={{
+          vertical: "bottom",
+          horizontal: "center"
+        }}
+      >
+        <Alert severity="success" variant="filled" sx={{ width: "100%" }}>
+          점검 결과가 복사되었습니다.
+        </Alert>
+      </Snackbar>
+    </Container>
+  );
 }
 
