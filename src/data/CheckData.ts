@@ -86,7 +86,7 @@ export const checkData: Record<string, CheckItem[]> = {
     { name: "폼폼푸린", startTime: "", endTime: "" },
     { name: "마리메꼬", startTime: "", endTime: "" },
     { name: "언어더팜", startTime: "", endTime: "" },
-    { name: "벨루엔", startTime: "", endTime: "" },
+    { name: "밴루엔", startTime: "", endTime: "" },
     { name: "아임도넛", startTime: "", endTime: "" },
     { name: "렌위치", startTime: "", endTime: "" }
   ],
@@ -96,6 +96,8 @@ export const checkData: Record<string, CheckItem[]> = {
     { name: "케이스티파이", startTime: "", endTime: "" },
     { name: "BBW", startTime: "", endTime: "" },
     { name: "S.tyle", startTime: "", endTime: "" },
+    { name: "폼폼푸린", startTime: "", endTime: "" },
+    { name: "마리메꼬", startTime: "", endTime: "" },
     { name: "격물공부", startTime: "", endTime: "" },
     { name: "러쉬", startTime: "", endTime: "" }
   ],
