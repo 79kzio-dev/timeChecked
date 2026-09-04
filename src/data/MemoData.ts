@@ -14,7 +14,7 @@ export interface MemoItem {
 
 export const memoData: MemoItem[] = [
   {
-    text: "11층 EV 123호기 T345호기 제어 완료했습니다. 기술팀 {worker}님입니다.",
+    text: "11층 EV 123호기 T345호기 11층 제어 완료했습니다. 기술팀 {worker}님입니다.",
     title: "기술팀",
     fields: [
       {
@@ -24,7 +24,7 @@ export const memoData: MemoItem[] = [
     ]
   },
   {
-    text: "11층 EV T1~T5호기 매장층 제어 완료했습니다.. 기술팀 {worker}님입니다.",
+    text: "11층 EV T1~T5호기 매장층 제어 완료했습니다. 기술팀 {worker}님입니다.",
     title: "기술팀",
     fields: [
       {
