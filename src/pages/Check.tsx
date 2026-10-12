@@ -6,6 +6,7 @@ import {
   Dialog,
   DialogActions,
   DialogContent,
+  DialogContentText,
   DialogTitle,
   IconButton,
   TextField,
@@ -37,6 +38,7 @@ export default function Check() {
   const navigate = useNavigate();
 
   const [addOpen, setAddOpen] = useState(false);
+  const [homeOpen, setHomeOpen] = useState(false);
   const [newItemName, setNewItemName] = useState("");
 
   const activeCheck = getActiveCheck();
@@ -136,6 +138,7 @@ export default function Check() {
   };
 
   const goHome = () => {
+    setHomeOpen(false);
     resetAllChecks();
     clearActiveCheck();
 
@@ -167,7 +170,7 @@ export default function Check() {
             justifyContent: "space-between"
           }}
         >
-          <IconButton onClick={goHome}>
+          <IconButton onClick={() => setHomeOpen(true)}>
             <HomeIcon />
           </IconButton>
 
@@ -304,6 +307,24 @@ export default function Check() {
           확인
         </Button>
       </Box>
+
+      {/* 홈 이동 확인 */}
+      <Dialog open={homeOpen} onClose={() => setHomeOpen(false)}>
+        <DialogTitle>홈으로 이동</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            홈으로 이동하시겠습니까?
+            <br />
+            진행 중인 모든 점검 내용과 근무자 입력값이 초기화됩니다.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setHomeOpen(false)}>취소</Button>
+          <Button variant="contained" color="error" onClick={goHome}>
+            확인
+          </Button>
+        </DialogActions>
+      </Dialog>
 
       {/* 점검 항목 추가 Dialog */}
       <Dialog open={addOpen} onClose={() => setAddOpen(false)}>

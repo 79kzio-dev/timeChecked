@@ -73,6 +73,8 @@ export default function Edit() {
 
   const [snackOpen, setSnackOpen] = useState(false);
 
+  const [homeOpen, setHomeOpen] = useState(false);
+
   const saveResult = () => {
     setOpen(true);
   };
@@ -103,6 +105,7 @@ export default function Edit() {
   };
 
   const goHome = () => {
+    setHomeOpen(false);
     resetAllChecks();
     clearActiveCheck();
 
@@ -130,7 +133,7 @@ export default function Edit() {
           px: 1
         }}
       >
-        <IconButton onClick={goHome}>
+        <IconButton onClick={() => setHomeOpen(true)}>
           <HomeIcon />
         </IconButton>
 
@@ -214,6 +217,23 @@ export default function Edit() {
       >
         확인
       </Button>
+
+      <Dialog open={homeOpen} onClose={() => setHomeOpen(false)}>
+        <DialogTitle>홈으로 이동</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            홈으로 이동하시겠습니까?
+            <br />
+            진행 중인 모든 점검 내용과 근무자 입력값이 초기화됩니다.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setHomeOpen(false)}>취소</Button>
+          <Button variant="contained" color="error" onClick={goHome}>
+            확인
+          </Button>
+        </DialogActions>
+      </Dialog>
 
       <Dialog open={open} onClose={() => setOpen(false)}>
         <DialogTitle>결과 복사</DialogTitle>
