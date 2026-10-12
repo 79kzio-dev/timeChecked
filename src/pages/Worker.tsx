@@ -4,6 +4,7 @@ import { Box, Button, Container, Paper, TextField, Typography } from "@mui/mater
 import { typeName } from "../data/TypeName";
 import PersonIcon from "@mui/icons-material/Person";
 import { useLocation, useNavigate } from "react-router-dom";
+import { getActiveCheck, getWorkerDraft, saveActiveCheck, saveWorkerDraft } from "../data/ActiveCheck";
 
 export default function Worker() {
 
@@ -11,11 +12,26 @@ export default function Worker() {
   const location = useLocation();
 
   // Home에서 전달받을 점검 종류
-  const type = location.state?.type ?? "점검";
+  const activeCheck = getActiveCheck();
+  const type = location.state?.type ?? activeCheck?.type ?? "점검";
 
-  const [worker, setWorker] = useState("");
+  const [worker, setWorker] = useState(() => getWorkerDraft(type));
 
   const startCheck = () => {
+    // 근무자 이름을 바꿔도 같은 점검 종류의 진행 기록을 이어서 사용합니다.
+    if (activeCheck && activeCheck.type === type) {
+      const stableKey = `check_${type}`;
+      const previousKey = `check_${type}_${activeCheck.worker}`;
+      const existing = localStorage.getItem(stableKey);
+      const previous = localStorage.getItem(previousKey);
+
+      if (!existing && previous) {
+        localStorage.setItem(stableKey, previous);
+      }
+    }
+
+    saveWorkerDraft(type, worker);
+    saveActiveCheck({ type, worker });
 
     navigate("/check", {
       state: {

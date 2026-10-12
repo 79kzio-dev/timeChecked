@@ -23,6 +23,7 @@ import { typeName } from "../data/TypeName";
 import type { CheckItem } from "../data/CheckItem";
 import { resetAllChecks } from "../data/Storage.ts";
 import HomeIcon from "@mui/icons-material/Home";
+import { clearActiveCheck } from "../data/ActiveCheck";
 
 export default function Edit() {
   const location = useLocation();
@@ -72,8 +73,6 @@ export default function Edit() {
 
   const [snackOpen, setSnackOpen] = useState(false);
 
-  const [homeOpen, setHomeOpen] = useState(false);
-
   const saveResult = () => {
     setOpen(true);
   };
@@ -87,6 +86,7 @@ export default function Edit() {
 
       // 현재 점검 데이터 삭제
       resetAllChecks();
+      clearActiveCheck();
 
       // 복사 완료 Snackbar
       setSnackOpen(true);
@@ -103,9 +103,8 @@ export default function Edit() {
   };
 
   const goHome = () => {
-    setHomeOpen(false);
-
     resetAllChecks();
+    clearActiveCheck();
 
     navigate("/");
   };
@@ -131,7 +130,7 @@ export default function Edit() {
           px: 1
         }}
       >
-        <IconButton onClick={() => setHomeOpen(true)}>
+        <IconButton onClick={goHome}>
           <HomeIcon />
         </IconButton>
 
@@ -228,26 +227,6 @@ export default function Edit() {
 
           <Button variant="contained" onClick={copyResult}>
             예
-          </Button>
-        </DialogActions>
-      </Dialog>
-
-      <Dialog open={homeOpen} onClose={() => setHomeOpen(false)}>
-        <DialogTitle>홈으로 이동</DialogTitle>
-
-        <DialogContent>
-          <DialogContentText>
-            홈으로 이동하시겠습니까?
-            <br />
-            진행 중인 모든 점검 내용이 초기화됩니다.
-          </DialogContentText>
-        </DialogContent>
-
-        <DialogActions>
-          <Button onClick={() => setHomeOpen(false)}>취소</Button>
-
-          <Button variant="contained" color="error" onClick={goHome}>
-            확인
           </Button>
         </DialogActions>
       </Dialog>

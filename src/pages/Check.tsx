@@ -6,7 +6,6 @@ import {
   Dialog,
   DialogActions,
   DialogContent,
-  DialogContentText,
   DialogTitle,
   IconButton,
   TextField,
@@ -23,6 +22,7 @@ import type { CheckItem } from "../data/CheckItem";
 import { resetAllChecks } from "../data/Storage.ts";
 import { closestCenter, DndContext, type DragEndEvent, PointerSensor, useSensor, useSensors } from "@dnd-kit/core";
 import { arrayMove, SortableContext, verticalListSortingStrategy } from "@dnd-kit/sortable";
+import { clearActiveCheck, getActiveCheck, saveActiveCheck } from "../data/ActiveCheck";
 
 const now = () => {
   return new Date().toLocaleTimeString("ko-KR", {
@@ -36,14 +36,16 @@ export default function Check() {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const [homeOpen, setHomeOpen] = useState(false);
   const [addOpen, setAddOpen] = useState(false);
   const [newItemName, setNewItemName] = useState("");
 
-  const type = (location.state?.type as keyof typeof checkData) ?? "Mb";
-  const worker = location.state?.worker ?? "";
+  const activeCheck = getActiveCheck();
+  const type = (location.state?.type ?? activeCheck?.type ?? "Mb") as keyof typeof checkData;
+  const worker = location.state?.worker ?? activeCheck?.worker ?? "";
 
-  const storageKey = `check_${type}_${worker}`;
+  // 점검 기록은 근무자 이름이 바뀌어도 같은 점검 종류 안에서 이어집니다.
+  const storageKey = `check_${type}`;
+  const legacyStorageKey = `check_${type}_${worker}`;
 
   const createItems = (): CheckItem[] =>
     checkData[type].map((item) => ({
@@ -53,7 +55,8 @@ export default function Check() {
     }));
 
   const [items, setItems] = useState<CheckItem[]>(() => {
-    const saved = localStorage.getItem(storageKey);
+    const saved =
+      localStorage.getItem(storageKey) ?? localStorage.getItem(legacyStorageKey);
     return saved ? JSON.parse(saved) : createItems();
   });
 
@@ -72,6 +75,10 @@ export default function Check() {
   useEffect(() => {
     localStorage.setItem(storageKey, JSON.stringify(items));
   }, [items, storageKey]);
+
+  useEffect(() => {
+    saveActiveCheck({ type, worker });
+  }, [type, worker]);
 
   const startItem = (index: number) => {
     setItems((prev) =>
@@ -129,9 +136,8 @@ export default function Check() {
   };
 
   const goHome = () => {
-    setHomeOpen(false);
-
     resetAllChecks();
+    clearActiveCheck();
 
     navigate("/");
   };
@@ -161,7 +167,7 @@ export default function Check() {
             justifyContent: "space-between"
           }}
         >
-          <IconButton onClick={() => setHomeOpen(true)}>
+          <IconButton onClick={goHome}>
             <HomeIcon />
           </IconButton>
 
@@ -298,27 +304,6 @@ export default function Check() {
           확인
         </Button>
       </Box>
-
-      {/* 홈 이동 Dialog */}
-      <Dialog open={homeOpen} onClose={() => setHomeOpen(false)}>
-        <DialogTitle>홈으로 이동</DialogTitle>
-
-        <DialogContent>
-          <DialogContentText>
-            홈으로 이동하시겠습니까?
-            <br />
-            진행 중인 모든 점검 내용이 초기화됩니다.
-          </DialogContentText>
-        </DialogContent>
-
-        <DialogActions>
-          <Button onClick={() => setHomeOpen(false)}>취소</Button>
-
-          <Button variant="contained" color="error" onClick={goHome}>
-            확인
-          </Button>
-        </DialogActions>
-      </Dialog>
 
       {/* 점검 항목 추가 Dialog */}
       <Dialog open={addOpen} onClose={() => setAddOpen(false)}>
